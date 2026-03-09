@@ -37,7 +37,7 @@ from .exceptions import XRYFileNotFoundError, XRYParseError, XRYUnsupportedVersi
 
 # Minimum supported XRY XML version (we accept 7.x and above)
 _MIN_VERSION = 7
-_MAX_VERSION = 99  # future-proof
+_MAX_VERSION = 99   # future-proof
 
 # Known XRY item type strings → internal category keys
 ITEM_TYPE_MAP: Dict[str, str] = {
@@ -187,7 +187,10 @@ class XRYParser:
             info_el = self._root.find("deviceinfo")
         if info_el is None:
             return {}
-        return {child.tag.lower(): (child.text or "").strip() for child in info_el}
+        return {
+            child.tag.lower(): (child.text or "").strip()
+            for child in info_el
+        }
 
     def iter_items(self) -> Iterator[Tuple[str, Dict[str, Any]]]:
         """
@@ -221,7 +224,7 @@ class XRYParser:
 
             fields = self._parse_item_element(item_el)
             fields["_type"] = type_attr
-            fields["_deleted"] = item_el.get("deleted", "false").lower() == "true"
+            fields["_deleted"] = (item_el.get("deleted", "false").lower() == "true")
             fields["_id"] = item_el.get("id")
             fields["_source"] = item_el.get("source")
 
@@ -288,8 +291,7 @@ class XRYParser:
 
             # Collect extra attributes (e.g. phonetype="Mobile")
             extras = {
-                k: v
-                for k, v in field_el.attrib.items()
+                k: v for k, v in field_el.attrib.items()
                 if k.lower() not in ("name", "type")
             }
 

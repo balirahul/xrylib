@@ -8,6 +8,7 @@ import re
 from datetime import datetime, timezone
 from typing import Any, List, Optional
 
+
 # ------------------------------------------------------------------ #
 #  Date / time parsing                                                 #
 # ------------------------------------------------------------------ #
@@ -44,7 +45,7 @@ def parse_datetime(value: Any) -> Optional[datetime]:
     if isinstance(value, (int, float)):
         # Unix epoch (seconds or milliseconds)
         ts = float(value)
-        if ts > 1e10:  # likely milliseconds
+        if ts > 1e10:   # likely milliseconds
             ts /= 1000.0
         return datetime.fromtimestamp(ts, tz=timezone.utc)
     if isinstance(value, str):
@@ -100,7 +101,6 @@ def parse_bool(value: Any) -> Optional[bool]:
 #  Integer / float coercion                                            #
 # ------------------------------------------------------------------ #
 
-
 def parse_int(value: Any) -> Optional[int]:
     """Safely coerce a value to int."""
     if value is None:
@@ -124,7 +124,6 @@ def parse_float(value: Any) -> Optional[float]:
 # ------------------------------------------------------------------ #
 #  String normalisation                                                #
 # ------------------------------------------------------------------ #
-
 
 def normalise_str(value: Any) -> Optional[str]:
     """Strip whitespace; return None for empty / None values."""

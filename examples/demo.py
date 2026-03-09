@@ -146,9 +146,8 @@ def main():
         # ── Locations ───────────────────────────────────────────────
         print("\n── LOCATIONS ───────────────────────────────────")
         for loc in report.locations_with_gps():
-            print(
-                f"  ({loc.latitude}, {loc.longitude})  alt={loc.altitude}m  @ {loc.timestamp}"
-            )
+            lat, lon = loc.latitude, loc.longitude
+            print(f"  ({lat}, {lon})  alt={loc.altitude}m  @ {loc.timestamp}")
 
         # ── Browser ─────────────────────────────────────────────────
         print("\n── BROWSER HISTORY ─────────────────────────────")

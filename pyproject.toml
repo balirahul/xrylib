@@ -59,4 +59,16 @@ source = ["xrylib"]
 omit = ["tests/*", "examples/*"]
 
 [tool.black]
-target-version = ["py311"]
+line-length = 127
+target-version = ["py38", "py39", "py310", "py311", "py312"]
+
+[tool.isort]
+profile = "black"
+line_length = 88
+known_first_party = ["xrylib"]
+
+[tool.mypy]
+python_version = "3.8"
+ignore_missing_imports = true
+no_strict_optional = true
+warn_unused_ignores = false

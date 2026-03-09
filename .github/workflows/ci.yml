@@ -32,13 +32,15 @@ jobs:
       run: |
         flake8 xrylib/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-    - name: Check code formatting with black
+    - name: Check formatting with black
+      # pyproject.toml [tool.black] sets: line-length=127, target-version=py38..py312
       run: |
-        black --check xrylib/ tests/ examples/
+        black --check --diff --target-version py38 xrylib/ tests/ examples/
 
     - name: Check import sorting with isort
+      # pyproject.toml [tool.isort] sets: profile=black, line_length=127
       run: |
-        isort --check-only xrylib/ tests/ examples/
+        isort --check-only --diff xrylib/ tests/ examples/
 
     - name: Type-check with mypy
       run: |
@@ -133,7 +135,7 @@ jobs:
 
     - name: Verify distributions with twine
       run: |
-        twine check dist/*
+        twine check --strict dist/*
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4

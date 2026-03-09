@@ -199,9 +199,7 @@ class XRYReport:
     #  Convenience / query helpers                                         #
     # ------------------------------------------------------------------ #
 
-    def search_messages(
-        self, keyword: str, case_sensitive: bool = False
-    ) -> List[Message]:
+    def search_messages(self, keyword: str, case_sensitive: bool = False) -> List[Message]:
         """Return all messages whose body contains *keyword*."""
         kw = keyword if case_sensitive else keyword.lower()
         result = []
@@ -213,9 +211,7 @@ class XRYReport:
                 result.append(msg)
         return result
 
-    def search_chat_messages(
-        self, keyword: str, case_sensitive: bool = False
-    ) -> List[ChatMessage]:
+    def search_chat_messages(self, keyword: str, case_sensitive: bool = False) -> List[ChatMessage]:
         """Return all chat messages whose body contains *keyword*."""
         kw = keyword if case_sensitive else keyword.lower()
         result = []
@@ -231,9 +227,7 @@ class XRYReport:
         """Return only deleted (recovered) items from a given category."""
         return [item for item in self._get(category) if getattr(item, "deleted", False)]
 
-    def contacts_by_name(
-        self, name: str, case_sensitive: bool = False
-    ) -> List[Contact]:
+    def contacts_by_name(self, name: str, case_sensitive: bool = False) -> List[Contact]:
         """Look up contacts whose name matches (substring)."""
         target = name if case_sensitive else name.lower()
         result = []
@@ -264,8 +258,7 @@ class XRYReport:
             "imei": self.device.imei,
             "extraction_date": (
                 self.device.extraction_date.isoformat()
-                if self.device.extraction_date
-                else None
+                if self.device.extraction_date else None
             ),
             "counts": {
                 "contacts": len(self.contacts),
