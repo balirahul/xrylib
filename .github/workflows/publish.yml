@@ -1,0 +1,93 @@
+# Publishes xrylib to PyPI when a GitHub Release is created.
+# Uses PyPA Trusted Publishing (OIDC) — no API token needed.
+# See: https://docs.pypi.org/trusted-publishers/
+
+name: Publish to PyPI
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  release-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Build release distributions
+        run: |
+          python -m build
+
+      - name: Verify distributions with twine
+        run: |
+          twine check dist/*
+
+      - name: Upload distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-dists
+          path: dist/
+
+  pypi-publish:
+    runs-on: ubuntu-latest
+    needs:
+      - release-build
+    permissions:
+      # IMPORTANT: mandatory for OIDC trusted publishing — no PyPI API token required
+      id-token: write
+
+    environment:
+      name: pypi
+      url: https://pypi.org/project/xrylib/${{ github.event.release.tag_name }}
+
+    steps:
+      - name: Retrieve release distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: release-dists
+          path: dist/
+
+      - name: Publish release distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/
+
+  test-pypi-publish:
+    runs-on: ubuntu-latest
+    needs:
+      - release-build
+    permissions:
+      id-token: write
+
+    # Publishes to TestPyPI first so you can verify the package before it
+    # goes to the real index. Remove this job once you are confident in the
+    # release pipeline.
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/project/xrylib/${{ github.event.release.tag_name }}
+
+    steps:
+      - name: Retrieve release distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: release-dists
+          path: dist/
+
+      - name: Publish to TestPyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          packages-dir: dist/
