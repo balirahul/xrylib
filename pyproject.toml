@@ -57,3 +57,6 @@ addopts = "-v --tb=short"
 [tool.coverage.run]
 source = ["xrylib"]
 omit = ["tests/*", "examples/*"]
+
+[tool.black]
+target-version = ["py311"]
