@@ -25,7 +25,6 @@ from xrylib.utils import (
 )
 from xrylib.exceptions import XRYFileNotFoundError, XRYParseError
 
-
 # ======================================================================== #
 #  Fixtures — build minimal XRY XML strings                                #
 # ======================================================================== #
@@ -127,6 +126,7 @@ def report(xry_file):
 #  Utility tests                                                            #
 # ======================================================================== #
 
+
 class TestUtils:
     def test_parse_datetime_iso(self):
         dt = parse_datetime("2024-03-15T10:30:00")
@@ -180,6 +180,7 @@ class TestUtils:
 #  Parser tests                                                             #
 # ======================================================================== #
 
+
 class TestXRYParser:
     def test_load_valid(self, xry_file):
         parser = XRYParser(xry_file).load()
@@ -225,6 +226,7 @@ class TestXRYParser:
 # ======================================================================== #
 #  Report / model tests                                                     #
 # ======================================================================== #
+
 
 class TestXRYReport:
     def test_repr(self, report):
@@ -328,6 +330,7 @@ class TestXRYReport:
 
     def test_to_json(self, report):
         import json
+
         data = json.loads(report.to_json())
         assert "contacts" in data
         assert "calls" in data
