@@ -13,10 +13,10 @@ from typing import Any, Dict, List, Optional
 
 from .base import ForensicArtifact
 
-
 # ======================================================================== #
 #  Device / Extraction metadata                                             #
 # ======================================================================== #
+
 
 @dataclass
 class DeviceInfo(ForensicArtifact):
@@ -70,16 +70,19 @@ class DeviceInfo(ForensicArtifact):
 #  Contacts                                                                 #
 # ======================================================================== #
 
+
 @dataclass
 class PhoneNumber:
     """A single phone number entry within a contact."""
+
     number: str
-    number_type: Optional[str] = None   # Mobile, Home, Work, Other …
+    number_type: Optional[str] = None  # Mobile, Home, Work, Other …
 
 
 @dataclass
 class EmailAddress:
     """A single e-mail address entry within a contact."""
+
     address: str
     address_type: Optional[str] = None  # Personal, Work …
 
@@ -136,6 +139,7 @@ class Contact(ForensicArtifact):
 #  Call Logs                                                                #
 # ======================================================================== #
 
+
 @dataclass
 class Call(ForensicArtifact):
     """
@@ -156,7 +160,7 @@ class Call(ForensicArtifact):
     number: Optional[str] = None
     name: Optional[str] = None
     timestamp: Optional[datetime] = None
-    duration: Optional[int] = None          # seconds
+    duration: Optional[int] = None  # seconds
     call_type: Optional[str] = None
     sim_slot: Optional[int] = None
     network: Optional[str] = None
@@ -175,13 +179,15 @@ class Call(ForensicArtifact):
 #  SMS / MMS Messages                                                       #
 # ======================================================================== #
 
+
 @dataclass
 class MessageAttachment:
     """An attachment within an MMS or chat message."""
+
     filename: Optional[str] = None
     mime_type: Optional[str] = None
     size_bytes: Optional[int] = None
-    path: Optional[str] = None          # extraction-internal path
+    path: Optional[str] = None  # extraction-internal path
 
 
 @dataclass
@@ -228,6 +234,7 @@ class Message(ForensicArtifact):
 #  Email                                                                    #
 # ======================================================================== #
 
+
 @dataclass
 class Email(ForensicArtifact):
     """
@@ -268,6 +275,7 @@ class Email(ForensicArtifact):
 #  Chat / Instant Messages                                                  #
 # ======================================================================== #
 
+
 @dataclass
 class ChatMessage(ForensicArtifact):
     """
@@ -306,9 +314,11 @@ class ChatMessage(ForensicArtifact):
 #  Media Files                                                              #
 # ======================================================================== #
 
+
 @dataclass
 class GPSCoordinate:
     """Embedded GPS coordinate within a media file."""
+
     latitude: float
     longitude: float
     altitude: Optional[float] = None
@@ -366,6 +376,7 @@ class MediaFile(ForensicArtifact):
 #  Location / GPS                                                           #
 # ======================================================================== #
 
+
 @dataclass
 class Location(ForensicArtifact):
     """
@@ -408,6 +419,7 @@ class Location(ForensicArtifact):
 #  Browser History                                                          #
 # ======================================================================== #
 
+
 @dataclass
 class BrowserHistory(ForensicArtifact):
     """
@@ -439,6 +451,7 @@ class BrowserHistory(ForensicArtifact):
 # ======================================================================== #
 #  Installed Applications                                                   #
 # ======================================================================== #
+
 
 @dataclass
 class InstalledApp(ForensicArtifact):
@@ -476,6 +489,7 @@ class InstalledApp(ForensicArtifact):
 #  Notes                                                                    #
 # ======================================================================== #
 
+
 @dataclass
 class Note(ForensicArtifact):
     """
@@ -501,6 +515,7 @@ class Note(ForensicArtifact):
 # ======================================================================== #
 #  Calendar Events                                                          #
 # ======================================================================== #
+
 
 @dataclass
 class CalendarEvent(ForensicArtifact):
@@ -544,6 +559,7 @@ class CalendarEvent(ForensicArtifact):
 #  Wireless Networks                                                        #
 # ======================================================================== #
 
+
 @dataclass
 class WirelessNetwork(ForensicArtifact):
     """
@@ -575,6 +591,7 @@ class WirelessNetwork(ForensicArtifact):
 # ======================================================================== #
 #  User Accounts                                                            #
 # ======================================================================== #
+
 
 @dataclass
 class UserAccount(ForensicArtifact):
