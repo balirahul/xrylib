@@ -2,6 +2,8 @@
 
 **xrylib** is a Python library for parsing and extracting forensic artifacts from `.xry` files produced by [MSAB XRY](https://www.msab.com/products/xry/), a leading mobile device forensic tool.
 
+It is modelled after `ufedlib-py` (Cellebrite UFED) and provides a clean, typed API for every artifact category XRY can extract.
+
 ---
 
 ## Installation
@@ -143,4 +145,4 @@ xrylib/
 
 ## License
 
-Apache 2.0
+MIT

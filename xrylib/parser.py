@@ -101,6 +101,9 @@ ITEM_TYPE_MAP: Dict[str, str] = {
     "wifi": "wireless_networks",
     "wi-fi": "wireless_networks",
     "wlan": "wireless_networks",
+    "wi-fi network": "wireless_networks",
+    "wifi network": "wireless_networks",
+    "wireless": "wireless_networks",
     # Accounts
     "user account": "user_accounts",
     "account": "user_accounts",

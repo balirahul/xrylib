@@ -1,6 +1,11 @@
 # Publishes xrylib to PyPI when a GitHub Release is created.
 # Uses PyPA Trusted Publishing (OIDC) — no API token needed.
-# See: https://docs.pypi.org/trusted-publishers/
+# Setup: https://docs.pypi.org/trusted-publishers/
+#
+# SETUP_REQUIRED:
+#   1. On PyPI:     Add a Trusted Publisher for this repo + environment "pypi"
+#   2. On TestPyPI: Add a Trusted Publisher for this repo + environment "testpypi"
+#   3. In GitHub:   Create "pypi" and "testpypi" environments under Settings > Environments
 
 name: Publish to PyPI
 
@@ -12,6 +17,7 @@ permissions:
   contents: read
 
 jobs:
+  # ── Step 1: Build and verify the distribution ─────────────────────────────
   release-build:
     runs-on: ubuntu-latest
 
@@ -33,7 +39,7 @@ jobs:
 
       - name: Verify distributions with twine
         run: |
-          twine check dist/*
+          twine check --strict dist/*
 
       - name: Upload distributions
         uses: actions/upload-artifact@v4
@@ -41,42 +47,16 @@ jobs:
           name: release-dists
           path: dist/
 
-  pypi-publish:
+  # ── Step 2: Publish to TestPyPI first (smoke-test the release) ────────────
+  testpypi-publish:
     runs-on: ubuntu-latest
-    needs:
-      - release-build
-    permissions:
-      # IMPORTANT: mandatory for OIDC trusted publishing — no PyPI API token required
-      id-token: write
-
-    environment:
-      name: pypi
-      url: https://pypi.org/project/xrylib/${{ github.event.release.tag_name }}
-
-    steps:
-      - name: Retrieve release distributions
-        uses: actions/download-artifact@v4
-        with:
-          name: release-dists
-          path: dist/
-
-      - name: Publish release distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          packages-dir: dist/
-
-  test-pypi-publish:
-    runs-on: ubuntu-latest
-    needs:
-      - release-build
+    needs: release-build
     permissions:
       id-token: write
 
-    # Publishes to TestPyPI first so you can verify the package before it
-    # goes to the real index. Remove this job once you are confident in the
-    # release pipeline.
     environment:
       name: testpypi
+      # Strip leading "v" from tag so URL matches PyPI version format (e.g. "2.0.0")
       url: https://test.pypi.org/project/xrylib/${{ github.event.release.tag_name }}
 
     steps:
@@ -90,4 +70,27 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
+          packages-dir: dist/
+
+  # ── Step 3: Publish to PyPI only after TestPyPI succeeds ─────────────────
+  pypi-publish:
+    runs-on: ubuntu-latest
+    needs: testpypi-publish
+    permissions:
+      id-token: write
+
+    environment:
+      name: pypi
+      url: https://pypi.org/project/xrylib/${{ github.event.release.tag_name }}
+
+    steps:
+      - name: Retrieve release distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: release-dists
+          path: dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
           packages-dir: dist/

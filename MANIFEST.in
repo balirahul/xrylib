@@ -1,6 +1,28 @@
+# Source distribution manifest for xrylib
+
+# Docs and project files
 include README.md
 include LICENSE
 include CHANGELOG.md
+include MANIFEST.in
+
+# Packaging
+include pyproject.toml
+include setup.py
+
+# Source
 recursive-include xrylib *.py
-recursive-include tests *.py
+
+# Tests
+recursive-include tests *.py *.xml *.xry.gz
+
+# Examples
 recursive-include examples *.py
+
+# GitHub config (not strictly needed in sdist but useful for contributors)
+recursive-include .github *.yml *.yaml *.md
+
+# Exclude compiled artefacts
+global-exclude __pycache__
+global-exclude *.py[cod]
+global-exclude *.egg-info

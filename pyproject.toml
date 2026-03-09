@@ -7,9 +7,8 @@ name = "xrylib"
 version = "1.0.0"
 description = "Python library for parsing and extracting forensic data from XRY mobile device extraction files"
 readme = "README.md"
-license = "Apache-2.0"
+license = { file = "LICENSE" }
 requires-python = ">=3.8"
-author = "xrylib contributors"
 keywords = [
     "forensics", "mobile-forensics", "xry", "msab", "digital-forensics",
     "dfir", "mobile", "extraction", "evidence"
@@ -18,7 +17,7 @@ classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
     "Intended Audience :: Legal Industry",
-    "License :: OSI Approved :: Apache Software License",
+    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
@@ -30,12 +29,13 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Information Analysis",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dependencies = []   # zero external dependencies — stdlib only
+dependencies = []
 
+# SETUP_REQUIRED: Replace "your-org" with your GitHub username/organisation.
 [project.urls]
-Homepage  = "https://github.com/balirahul/xrylib"
-Repository = "https://github.com/balirahul/xrylib"
-Issues    = "https://github.com/balirahul/xrylib/issues"
+Homepage   = "https://github.com/your-org/xrylib"
+Repository = "https://github.com/your-org/xrylib"
+Issues     = "https://github.com/your-org/xrylib/issues"
 
 [project.optional-dependencies]
 dev = [
