@@ -1,14 +1,15 @@
 [build-system]
 requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.backends.legacy:build"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "xrylib"
 version = "1.0.0"
 description = "Python library for parsing and extracting forensic data from XRY mobile device extraction files"
 readme = "README.md"
-license = { file = "LICENSE" }
+license = "Apache-2.0"
 requires-python = ">=3.8"
+author = "xrylib contributors"
 keywords = [
     "forensics", "mobile-forensics", "xry", "msab", "digital-forensics",
     "dfir", "mobile", "extraction", "evidence"
